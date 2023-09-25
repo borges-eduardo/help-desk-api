@@ -1,10 +1,12 @@
-package helpdesk.models;
+package helpdesk.models.dtos;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import helpdesk.models.Tecnico;
 import helpdesk.models.enums.Perfil;
-import jakarta.persistence.*;
-import lombok.*;
-import org.hibernate.validator.constraints.br.CPF;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+import lombok.experimental.SuperBuilder;
 
 import java.time.LocalDate;
 import java.util.HashSet;
@@ -13,41 +15,30 @@ import java.util.stream.Collectors;
 
 @Getter
 @Setter
-@EqualsAndHashCode
-@MappedSuperclass
-public abstract class Pessoa {
+public class TecnicoDTO {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     protected Long id;
-
     protected String nome;
-
-    @Column(unique = true)
     protected String cpf;
-
-    @Column(unique = true)
     protected String email;
-
     protected String senha;
-
-    @ElementCollection(fetch = FetchType.EAGER)
-    @CollectionTable(name = "PERFIS")
     protected Set<Integer> perfis = new HashSet<>();
-
     @JsonFormat(pattern = "dd/MM/yyyy")
     protected LocalDate dataCriacao = LocalDate.now();
 
-    public Pessoa() {
+    public TecnicoDTO() {
+        super();
         setPerfis(Perfil.CLIENTE);
     }
 
-    public Pessoa(Long id, String nome, String cpf, String email, String senha) {
-        this.id = id;
-        this.nome = nome;
-        this.cpf = cpf;
-        this.email = email;
-        this.senha = senha;
+    public TecnicoDTO(Tecnico tecnico) {
+        this.id = tecnico.getId();
+        this.nome = tecnico.getNome();
+        this.cpf = tecnico.getCpf();
+        this.email = tecnico.getEmail();
+        this.senha = tecnico.getSenha();
+        this.perfis = tecnico.getPerfis().stream().map(Perfil::getCodigo).collect(Collectors.toSet());
+        this.dataCriacao = tecnico.getDataCriacao();
         setPerfis(Perfil.CLIENTE);
     }
 
