@@ -19,20 +19,20 @@ import java.util.stream.Collectors;
 public record TecnicoController(TecnicoService tecnicoService) {
 
     @PostMapping
-    public ResponseEntity<TecnicoDTO> create(@Valid @RequestBody TecnicoDTO tecnicoDTO) {
-        Tecnico novoTecnico = tecnicoService.create(tecnicoDTO);
+    public ResponseEntity<TecnicoDTO> CriarTecnico(@Valid @RequestBody TecnicoDTO tecnicoDTO) {
+        Tecnico novoTecnico = tecnicoService.CriarTecnico(tecnicoDTO);
         URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(novoTecnico.getId()).toUri();
-        return ResponseEntity.created(uri).build();
+        return ResponseEntity.status(HttpStatus.CREATED).location(uri).build();
     }
 
     @GetMapping(value = "/{id}")
-    public ResponseEntity<TecnicoDTO> findById(@PathVariable Long id) {
-        return ResponseEntity.status(HttpStatus.OK).body(new TecnicoDTO(tecnicoService.findById(id)));
+    public ResponseEntity<TecnicoDTO> BuscarTecnicoPorId(@PathVariable Long id) {
+        return ResponseEntity.status(HttpStatus.OK).body(new TecnicoDTO(tecnicoService.BuscarTecnicoPorId(id)));
     }
 
     @GetMapping
-    public ResponseEntity<Page<TecnicoDTO>> findAll(Pageable pageable) {
-        Page<Tecnico> page = tecnicoService.findAll(pageable);
+    public ResponseEntity<Page<TecnicoDTO>> BuscarTodosTecnicos(Pageable pageable) {
+        Page<Tecnico> page = tecnicoService.BuscarTodosTecnicos(pageable);
         Page<TecnicoDTO> pageDTO = page.map(TecnicoDTO::new);
 
         return ResponseEntity.status(HttpStatus.OK).body(pageDTO);

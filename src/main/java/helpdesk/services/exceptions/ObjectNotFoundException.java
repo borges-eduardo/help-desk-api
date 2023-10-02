@@ -1,6 +1,5 @@
 package helpdesk.services.exceptions;
 
-import java.io.Serial;
 
 public class ObjectNotFoundException extends RuntimeException {
 
