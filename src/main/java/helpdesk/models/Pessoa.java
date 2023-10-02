@@ -11,6 +11,7 @@ import java.util.HashSet;
 import java.util.Set;
 import java.util.stream.Collectors;
 
+@AllArgsConstructor
 @Getter
 @Setter
 @EqualsAndHashCode
@@ -20,7 +21,6 @@ public abstract class Pessoa {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     protected Long id;
-
     protected String nome;
 
     @Column(unique = true)
@@ -28,21 +28,21 @@ public abstract class Pessoa {
 
     @Column(unique = true)
     protected String email;
-
     protected String senha;
 
     @ElementCollection(fetch = FetchType.EAGER)
-    @CollectionTable(name = "PERFIS")
     protected Set<Integer> perfis = new HashSet<>();
 
     @JsonFormat(pattern = "dd/MM/yyyy")
     protected LocalDate dataCriacao = LocalDate.now();
 
     public Pessoa() {
+        super();
         setPerfis(Perfil.CLIENTE);
     }
 
     public Pessoa(Long id, String nome, String cpf, String email, String senha) {
+        super();
         this.id = id;
         this.nome = nome;
         this.cpf = cpf;

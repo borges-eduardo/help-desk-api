@@ -4,14 +4,12 @@ import com.fasterxml.jackson.annotation.JsonFormat;
 import helpdesk.models.enums.Prioridade;
 import helpdesk.models.enums.Status;
 import jakarta.persistence.*;
-import lombok.EqualsAndHashCode;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 import java.time.LocalDate;
 
 @NoArgsConstructor
+@AllArgsConstructor
 @Getter
 @Setter
 @EqualsAndHashCode
@@ -24,17 +22,13 @@ public class Chamado {
 
     @JsonFormat(pattern = "dd/MM/yyyy")
     private LocalDate dataAbertura = LocalDate.now();
-
     @JsonFormat(pattern = "dd/MM/yyyy")
     private LocalDate dataFechamento;
 
-    private Prioridade prioridades;
-
+    private Prioridade prioridade;
     private Status status;
-
     private String titulo;
-
-    private String observaçao;
+    private String observacoes;
 
     @ManyToOne
     @JoinColumn(name = "tecnico_id")
@@ -44,13 +38,14 @@ public class Chamado {
     @JoinColumn(name = "cliente_id")
     private Cliente cliente;
 
-
-    public Chamado(Long id, Prioridade prioridades, Status status, String titulo, String observaçao, Tecnico tecnico, Cliente cliente) {
+    public Chamado(Long id, Prioridade prioridade, Status status, String titulo, String observacoes, Tecnico tecnico,
+                   Cliente cliente) {
+        super();
         this.id = id;
-        this.prioridades = prioridades;
+        this.prioridade = prioridade;
         this.status = status;
         this.titulo = titulo;
-        this.observaçao = observaçao;
+        this.observacoes = observacoes;
         this.tecnico = tecnico;
         this.cliente = cliente;
     }

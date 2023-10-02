@@ -4,8 +4,11 @@ import helpdesk.models.Pessoa;
 import helpdesk.models.Tecnico;
 import helpdesk.models.dtos.TecnicoDTO;
 import helpdesk.repositories.TecnicoRepository;
+import helpdesk.services.exceptions.ObjectNotFoundException;
 import jakarta.persistence.EntityNotFoundException;
 import org.springframework.dao.DataIntegrityViolationException;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.Optional;
@@ -13,16 +16,20 @@ import java.util.Optional;
 @Service
 public record TecnicoService(TecnicoRepository tecnicoRepository) {
 
-    public Tecnico salvarTecnico(TecnicoDTO tecnicoDTO) {
+    public Tecnico create(TecnicoDTO tecnicoDTO) {
         tecnicoDTO.setId(null);
-        tecnicoDTO.setSenha(tecnicoDTO.getSenha());
         validaPorCpfEEmail(tecnicoDTO);
-        Tecnico novoTecnico = new Tecnico(tecnicoDTO);
-        return tecnicoRepository.save(novoTecnico);
+        Tecnico tecnico = new Tecnico(tecnicoDTO);
+        return tecnicoRepository.save(tecnico);
     }
 
-    public Tecnico buscarPorId(Long id) {
-        return tecnicoRepository.findById(id).orElseThrow(() -> new EntityNotFoundException("Tecnico não encontrado."));
+    public Tecnico findById(Long id) {
+        return tecnicoRepository.findById(id).orElseThrow(
+                () -> new ObjectNotFoundException(String.format("Tecnico com ID '%s' não encontrado.", id)));
+    }
+
+    public Page<Tecnico> findAll(Pageable pageable) {
+        return tecnicoRepository.findAll(pageable);
     }
 
     private void validaPorCpfEEmail(TecnicoDTO objDTO) {

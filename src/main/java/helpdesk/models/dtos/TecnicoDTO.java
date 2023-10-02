@@ -3,10 +3,12 @@ package helpdesk.models.dtos;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import helpdesk.models.Tecnico;
 import helpdesk.models.enums.Perfil;
+import jakarta.validation.constraints.NotNull;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.experimental.SuperBuilder;
+import org.hibernate.validator.constraints.br.CPF;
 
 import java.time.LocalDate;
 import java.util.HashSet;
@@ -18,11 +20,17 @@ import java.util.stream.Collectors;
 public class TecnicoDTO {
 
     protected Long id;
+    @NotNull(message = "O campo NOME é requerido")
     protected String nome;
+    @NotNull(message = "O campo CPF é requerido")
+    @CPF
     protected String cpf;
+    @NotNull(message = "O campo EMAIL é requerido")
     protected String email;
+    @NotNull(message = "O campo SENHA é requerido")
     protected String senha;
     protected Set<Integer> perfis = new HashSet<>();
+
     @JsonFormat(pattern = "dd/MM/yyyy")
     protected LocalDate dataCriacao = LocalDate.now();
 
@@ -32,6 +40,7 @@ public class TecnicoDTO {
     }
 
     public TecnicoDTO(Tecnico tecnico) {
+        super();
         this.id = tecnico.getId();
         this.nome = tecnico.getNome();
         this.cpf = tecnico.getCpf();

@@ -5,6 +5,7 @@ import helpdesk.models.dtos.TecnicoDTO;
 import helpdesk.models.enums.Perfil;
 import jakarta.persistence.Entity;
 import jakarta.persistence.OneToMany;
+import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -23,7 +24,7 @@ public class Tecnico extends Pessoa {
 
     public Tecnico() {
         super();
-        setPerfis(Perfil.TECNICO);
+        setPerfis(Perfil.CLIENTE);
     }
 
     public Tecnico(Long id, String nome, String cpf, String email, String senha) {
@@ -31,15 +32,14 @@ public class Tecnico extends Pessoa {
         setPerfis(Perfil.CLIENTE);
     }
 
-    public Tecnico(TecnicoDTO dto) {
+    public Tecnico(TecnicoDTO tecnicoDTO) {
         super();
-        this.id = dto.getId();
-        this.nome = dto.getNome();
-        this.cpf = dto.getCpf();
-        this.email = dto.getEmail();
-        this.senha = dto.getSenha();
-        this.perfis = dto.getPerfis().stream().map(Perfil::getCodigo).collect(Collectors.toSet());
-        this.dataCriacao = dto.getDataCriacao();
+        this.id = tecnicoDTO.getId();
+        this.nome = tecnicoDTO.getNome();
+        this.cpf = tecnicoDTO.getCpf();
+        this.email = tecnicoDTO.getEmail();
+        this.senha = tecnicoDTO.getSenha();
+        this.perfis = tecnicoDTO.getPerfis().stream().map(Perfil::getCodigo).collect(Collectors.toSet());
+        this.dataCriacao = tecnicoDTO.getDataCriacao();
     }
-
 }
