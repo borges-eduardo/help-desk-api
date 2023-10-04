@@ -14,28 +14,36 @@ import java.util.Optional;
 @Service
 public record TecnicoService(TecnicoRepository tecnicoRepository) {
 
-    public Tecnico CriarTecnico(TecnicoDTO tecnicoDTO) {
+    public Tecnico criarTecnico(TecnicoDTO tecnicoDTO) {
         tecnicoDTO.setId(null);
         validaPorCpfEEmail(tecnicoDTO);
         Tecnico tecnico = new Tecnico(tecnicoDTO);
         return tecnicoRepository.save(tecnico);
     }
 
-    public Tecnico BuscarTecnicoPorId(Long id) {
+    public Tecnico buscarTecnicoPorId(Long id) {
         return tecnicoRepository.findById(id).orElseThrow(
                 () -> new ObjectNotFoundException(String.format("Tecnico com ID '%s' não encontrado.", id)));
     }
 
-    public Page<Tecnico> BuscarTodosTecnicos(Pageable pageable) {
+    public Page<Tecnico> buscarTodosTecnicos(Pageable pageable) {
         return tecnicoRepository.findAll(pageable);
     }
 
     public Tecnico atualizarTecnico(Long id, TecnicoDTO tecnicoDTO) {
         tecnicoDTO.setId(id);
-        Tecnico tecnico = BuscarTecnicoPorId(id);
+        Tecnico tecnico = buscarTecnicoPorId(id);
         validaPorCpfEEmail(tecnicoDTO);
         tecnico = new Tecnico(tecnicoDTO);
         return tecnicoRepository.save(tecnico);
+    }
+
+    public void excluirTecnico(Long id) {
+        Tecnico tecnico = buscarTecnicoPorId(id);
+        if(!tecnico.getChamados().isEmpty()) {
+            throw new DataIntegrityViolationException("Técnico possui ordens de serviço e não pode ser deletado!");
+        }
+        tecnicoRepository.deleteById(id);
     }
 
     private void validaPorCpfEEmail(TecnicoDTO tecnicoDTO) {

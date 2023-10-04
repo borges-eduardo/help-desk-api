@@ -12,27 +12,26 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import java.net.URI;
-import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping(value = "/tecnicos")
 public record TecnicoController(TecnicoService tecnicoService) {
 
     @PostMapping
-    public ResponseEntity<TecnicoDTO> CriarTecnico(@Valid @RequestBody TecnicoDTO tecnicoDTO) {
-        Tecnico novoTecnico = tecnicoService.CriarTecnico(tecnicoDTO);
+    public ResponseEntity<TecnicoDTO> criarTecnico(@Valid @RequestBody TecnicoDTO tecnicoDTO) {
+        Tecnico novoTecnico = tecnicoService.criarTecnico(tecnicoDTO);
         URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(novoTecnico.getId()).toUri();
         return ResponseEntity.status(HttpStatus.CREATED).location(uri).build();
     }
 
     @GetMapping(value = "/{id}")
-    public ResponseEntity<TecnicoDTO> BuscarTecnicoPorId(@PathVariable Long id) {
-        return ResponseEntity.status(HttpStatus.OK).body(new TecnicoDTO(tecnicoService.BuscarTecnicoPorId(id)));
+    public ResponseEntity<TecnicoDTO> buscarTecnicoPorId(@PathVariable Long id) {
+        return ResponseEntity.status(HttpStatus.OK).body(new TecnicoDTO(tecnicoService.buscarTecnicoPorId(id)));
     }
 
     @GetMapping
-    public ResponseEntity<Page<TecnicoDTO>> BuscarTodosTecnicos(Pageable pageable) {
-        Page<Tecnico> page = tecnicoService.BuscarTodosTecnicos(pageable);
+    public ResponseEntity<Page<TecnicoDTO>> buscarTodosTecnicos(Pageable pageable) {
+        Page<Tecnico> page = tecnicoService.buscarTodosTecnicos(pageable);
         Page<TecnicoDTO> pageDTO = page.map(TecnicoDTO::new);
 
         return ResponseEntity.status(HttpStatus.OK).body(pageDTO);
@@ -41,5 +40,11 @@ public record TecnicoController(TecnicoService tecnicoService) {
     @PutMapping(value = "/{id}")
     public ResponseEntity<TecnicoDTO> atualizarTecnico(@PathVariable Long id, @Valid @RequestBody TecnicoDTO tecnicoDTO) {
         return ResponseEntity.status(HttpStatus.OK).body(new TecnicoDTO(tecnicoService.atualizarTecnico(id, tecnicoDTO)));
+    }
+
+    @DeleteMapping(value = "/{id}")
+    public ResponseEntity<Void> excluirTecnico(@PathVariable Long id) {
+        tecnicoService.excluirTecnico(id);
+        return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
     }
 }
