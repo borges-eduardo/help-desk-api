@@ -30,6 +30,14 @@ public record TecnicoService(TecnicoRepository tecnicoRepository) {
         return tecnicoRepository.findAll(pageable);
     }
 
+    public Tecnico atualizarTecnico(Long id, TecnicoDTO tecnicoDTO) {
+        tecnicoDTO.setId(id);
+        Tecnico tecnico = BuscarTecnicoPorId(id);
+        validaPorCpfEEmail(tecnicoDTO);
+        tecnico = new Tecnico(tecnicoDTO);
+        return tecnicoRepository.save(tecnico);
+    }
+
     private void validaPorCpfEEmail(TecnicoDTO tecnicoDTO) {
         Optional<Tecnico> tecnico = tecnicoRepository.findByCpf(tecnicoDTO.getCpf());
         if (tecnico.isPresent() && tecnico.get().getId() != tecnicoDTO.getId()) {

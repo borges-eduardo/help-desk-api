@@ -38,4 +38,8 @@ public record TecnicoController(TecnicoService tecnicoService) {
         return ResponseEntity.status(HttpStatus.OK).body(pageDTO);
     }
 
+    @PutMapping(value = "/{id}")
+    public ResponseEntity<TecnicoDTO> atualizarTecnico(@PathVariable Long id, @Valid @RequestBody TecnicoDTO tecnicoDTO) {
+        return ResponseEntity.status(HttpStatus.OK).body(new TecnicoDTO(tecnicoService.atualizarTecnico(id, tecnicoDTO)));
+    }
 }
