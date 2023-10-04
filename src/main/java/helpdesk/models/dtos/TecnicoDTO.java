@@ -20,15 +20,20 @@ import java.util.stream.Collectors;
 public class TecnicoDTO {
 
     protected Long id;
+
     @NotNull(message = "O campo NOME é requerido")
     protected String nome;
+
     @NotNull(message = "O campo CPF é requerido")
     @CPF
     protected String cpf;
+
     @NotNull(message = "O campo EMAIL é requerido")
     protected String email;
+
     @NotNull(message = "O campo SENHA é requerido")
     protected String senha;
+
     protected Set<Integer> perfis = new HashSet<>();
 
     @JsonFormat(pattern = "dd/MM/yyyy")
