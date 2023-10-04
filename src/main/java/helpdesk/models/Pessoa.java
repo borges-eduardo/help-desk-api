@@ -21,6 +21,7 @@ public abstract class Pessoa {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     protected Long id;
+
     protected String nome;
 
     @Column(unique = true)
@@ -28,6 +29,7 @@ public abstract class Pessoa {
 
     @Column(unique = true)
     protected String email;
+
     protected String senha;
 
     @ElementCollection(fetch = FetchType.EAGER)
