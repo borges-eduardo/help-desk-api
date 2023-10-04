@@ -5,7 +5,6 @@ import helpdesk.models.dtos.TecnicoDTO;
 import helpdesk.models.enums.Perfil;
 import jakarta.persistence.Entity;
 import jakarta.persistence.OneToMany;
-import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
 

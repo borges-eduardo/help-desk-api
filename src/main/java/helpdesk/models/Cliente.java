@@ -1,6 +1,8 @@
 package helpdesk.models;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import helpdesk.models.dtos.ClienteDTO;
+import helpdesk.models.dtos.TecnicoDTO;
 import helpdesk.models.enums.Perfil;
 import jakarta.persistence.Entity;
 import jakarta.persistence.OneToMany;
@@ -11,6 +13,7 @@ import org.springframework.web.service.annotation.GetExchange;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @AllArgsConstructor
 @Getter
@@ -30,5 +33,16 @@ public class Cliente extends Pessoa {
     public Cliente(Long id, String nome, String cpf, String email, String senha) {
         super(id, nome, cpf, email, senha);
         setPerfis(Perfil.CLIENTE);
+    }
+
+    public Cliente(ClienteDTO clienteDTO) {
+        super();
+        this.id = clienteDTO.getId();
+        this.nome = clienteDTO.getNome();
+        this.cpf = clienteDTO.getCpf();
+        this.email = clienteDTO.getEmail();
+        this.senha = clienteDTO.getSenha();
+        this.perfis = clienteDTO.getPerfis().stream().map(Perfil::getCodigo).collect(Collectors.toSet());
+        this.dataCriacao = clienteDTO.getDataCriacao();
     }
 }

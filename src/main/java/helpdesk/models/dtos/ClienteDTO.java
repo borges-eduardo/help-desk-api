@@ -1,7 +1,7 @@
 package helpdesk.models.dtos;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
-import helpdesk.models.Tecnico;
+import helpdesk.models.Cliente;
 import helpdesk.models.enums.Perfil;
 import jakarta.validation.constraints.NotNull;
 import lombok.Getter;
@@ -15,7 +15,7 @@ import java.util.stream.Collectors;
 
 @Getter
 @Setter
-public class TecnicoDTO {
+public class ClienteDTO {
 
     protected Long id;
 
@@ -37,21 +37,21 @@ public class TecnicoDTO {
     @JsonFormat(pattern = "dd/MM/yyyy")
     protected LocalDate dataCriacao = LocalDate.now();
 
-    public TecnicoDTO() {
+    public ClienteDTO() {
         super();
-        setPerfis(Perfil.TECNICO);
+        setPerfis(Perfil.CLIENTE);
     }
 
-    public TecnicoDTO(Tecnico tecnico) {
+    public ClienteDTO(Cliente cliente) {
         super();
-        this.id = tecnico.getId();
-        this.nome = tecnico.getNome();
-        this.cpf = tecnico.getCpf();
-        this.email = tecnico.getEmail();
-        this.senha = tecnico.getSenha();
-        this.perfis = tecnico.getPerfis().stream().map(Perfil::getCodigo).collect(Collectors.toSet());
-        this.dataCriacao = tecnico.getDataCriacao();
-        setPerfis(Perfil.TECNICO);
+        this.id = cliente.getId();
+        this.nome = cliente.getNome();
+        this.cpf = cliente.getCpf();
+        this.email = cliente.getEmail();
+        this.senha = cliente.getSenha();
+        this.perfis = cliente.getPerfis().stream().map(Perfil::getCodigo).collect(Collectors.toSet());
+        this.dataCriacao = cliente.getDataCriacao();
+        setPerfis(Perfil.CLIENTE);
     }
 
     public Set<Perfil> getPerfis() {
