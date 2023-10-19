@@ -2,9 +2,8 @@ package helpdesk.models;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import helpdesk.models.enums.Perfil;
-import jakarta.persistence.*;
+import javax.persistence.*;
 import lombok.*;
-import org.hibernate.validator.constraints.br.CPF;
 
 import java.time.LocalDate;
 import java.util.HashSet;
@@ -15,7 +14,7 @@ import java.util.stream.Collectors;
 @Getter
 @Setter
 @EqualsAndHashCode
-@MappedSuperclass
+@Entity
 public abstract class Pessoa {
 
     @Id
@@ -33,6 +32,7 @@ public abstract class Pessoa {
     protected String senha;
 
     @ElementCollection(fetch = FetchType.EAGER)
+    @CollectionTable(name = "PERFIS")
     protected Set<Integer> perfis = new HashSet<>();
 
     @JsonFormat(pattern = "dd/MM/yyyy")

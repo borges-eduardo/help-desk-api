@@ -7,15 +7,17 @@ import helpdesk.services.exceptions.DataIntegrityViolationException;
 import helpdesk.services.exceptions.ObjectNotFoundException;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.Optional;
 
 @Service
-public record TecnicoService(TecnicoRepository tecnicoRepository) {
+public record TecnicoService(TecnicoRepository tecnicoRepository, BCryptPasswordEncoder encoder) {
 
     public Tecnico criarTecnico(TecnicoDTO tecnicoDTO) {
         tecnicoDTO.setId(null);
+        tecnicoDTO.setSenha(encoder.encode(tecnicoDTO.getSenha()));
         validaPorCpfEEmail(tecnicoDTO);
         Tecnico tecnico = new Tecnico(tecnicoDTO);
         return tecnicoRepository.save(tecnico);
@@ -33,6 +35,10 @@ public record TecnicoService(TecnicoRepository tecnicoRepository) {
     public Tecnico atualizarTecnico(Long id, TecnicoDTO tecnicoDTO) {
         tecnicoDTO.setId(id);
         Tecnico tecnico = buscarTecnicoPorId(id);
+
+        if(!tecnicoDTO.getSenha().equals(tecnico.getSenha()))
+            tecnicoDTO.setSenha(encoder.encode(tecnico.getSenha()));
+        
         validaPorCpfEEmail(tecnicoDTO);
         tecnico = new Tecnico(tecnicoDTO);
         return tecnicoRepository.save(tecnico);

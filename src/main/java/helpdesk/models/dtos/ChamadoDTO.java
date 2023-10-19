@@ -2,7 +2,7 @@ package helpdesk.models.dtos;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import helpdesk.models.Chamado;
-import jakarta.validation.constraints.NotNull;
+import javax.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;

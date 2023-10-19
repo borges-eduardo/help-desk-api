@@ -3,9 +3,11 @@ package helpdesk.models;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import helpdesk.models.enums.Prioridade;
 import helpdesk.models.enums.Status;
-import jakarta.persistence.*;
 import lombok.*;
 
+import javax.persistence.*;
+import java.io.Serial;
+import java.io.Serializable;
 import java.time.LocalDate;
 
 @NoArgsConstructor
@@ -14,7 +16,10 @@ import java.time.LocalDate;
 @Setter
 @EqualsAndHashCode
 @Entity(name = "tb_chamado")
-public class Chamado {
+public class Chamado implements Serializable {
+
+    @Serial
+    private static final long serialVersionUID = 1L;
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

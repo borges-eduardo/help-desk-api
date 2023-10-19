@@ -3,7 +3,7 @@ package helpdesk.controllers;
 import helpdesk.models.Tecnico;
 import helpdesk.models.dtos.TecnicoDTO;
 import helpdesk.services.TecnicoService;
-import jakarta.validation.Valid;
+import javax.validation.Valid;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;

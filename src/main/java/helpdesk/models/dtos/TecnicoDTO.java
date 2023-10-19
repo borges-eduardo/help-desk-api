@@ -3,7 +3,7 @@ package helpdesk.models.dtos;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import helpdesk.models.Tecnico;
 import helpdesk.models.enums.Perfil;
-import jakarta.validation.constraints.NotNull;
+import javax.validation.constraints.NotNull;
 import lombok.Getter;
 import lombok.Setter;
 import org.hibernate.validator.constraints.br.CPF;

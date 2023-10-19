@@ -7,15 +7,17 @@ import helpdesk.services.exceptions.DataIntegrityViolationException;
 import helpdesk.services.exceptions.ObjectNotFoundException;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.Optional;
 
 @Service
-public record ClienteService(ClienteRepository clienteRepository) {
+public record ClienteService(ClienteRepository clienteRepository, BCryptPasswordEncoder encoder) {
 
     public Cliente criarCliente(ClienteDTO clienteDTO) {
         clienteDTO.setId(null);
+        clienteDTO.setSenha(encoder.encode(clienteDTO.getSenha()));
         validaPorCpfEEmail(clienteDTO);
         Cliente cliente = new Cliente(clienteDTO);
         return clienteRepository.save(cliente);
@@ -33,6 +35,10 @@ public record ClienteService(ClienteRepository clienteRepository) {
     public Cliente atualizarCliente(Long id, ClienteDTO clienteDTO) {
         clienteDTO.setId(id);
         Cliente cliente = buscarClientePorId(id);
+
+        if(!clienteDTO.getSenha().equals(cliente.getSenha()))
+            clienteDTO.setSenha(encoder.encode(cliente.getSenha()));
+
         validaPorCpfEEmail(clienteDTO);
         cliente = new Cliente(clienteDTO);
         return clienteRepository.save(cliente);
