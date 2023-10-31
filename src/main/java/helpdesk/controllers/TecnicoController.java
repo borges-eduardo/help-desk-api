@@ -8,6 +8,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
@@ -17,6 +18,7 @@ import java.net.URI;
 @RequestMapping(value = "/tecnicos")
 public record TecnicoController(TecnicoService tecnicoService) {
 
+    @PreAuthorize("hasAnyRole('ADMIN')")
     @PostMapping
     public ResponseEntity<TecnicoDTO> criarTecnico(@Valid @RequestBody TecnicoDTO tecnicoDTO) {
         Tecnico novoTecnico = tecnicoService.criarTecnico(tecnicoDTO);
@@ -37,11 +39,14 @@ public record TecnicoController(TecnicoService tecnicoService) {
         return ResponseEntity.status(HttpStatus.OK).body(pageDTO);
     }
 
+    @PreAuthorize("hasAnyRole('ADMIN')")
     @PutMapping(value = "/{id}")
     public ResponseEntity<TecnicoDTO> atualizarTecnico(@PathVariable Long id, @Valid @RequestBody TecnicoDTO tecnicoDTO) {
         return ResponseEntity.status(HttpStatus.OK).body(new TecnicoDTO(tecnicoService.atualizarTecnico(id, tecnicoDTO)));
     }
 
+
+    @PreAuthorize("hasAnyRole('ADMIN')")
     @DeleteMapping(value = "/{id}")
     public ResponseEntity<Void> excluirTecnico(@PathVariable Long id) {
         tecnicoService.excluirTecnico(id);
