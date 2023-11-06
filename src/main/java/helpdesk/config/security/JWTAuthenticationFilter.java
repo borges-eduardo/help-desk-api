@@ -54,6 +54,7 @@ public class JWTAuthenticationFilter extends UsernamePasswordAuthenticationFilte
         response.setHeader("Access-Control-Allow-Origin", "*");
         response.setHeader("Access-Control-Allow-Methods", "POST, PUT, GET, OPTIONS, DELETE");
         response.setHeader("Access-Control-Allow-Headers", "Authorization, Content-Type, enctype, Location");
+        response.setHeader("Access-Control-Expose-Headers", "Authorization");
         response.setHeader("Authorization", "Bearer " + token);
     }
 
