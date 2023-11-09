@@ -19,17 +19,17 @@ public class ClienteDTO {
 
     protected Long id;
 
-    @NotNull(message = "O campo NOME é requerido")
+    @NotNull(message = "O campo NOME é requerido.")
     protected String nome;
 
-    @NotNull(message = "O campo CPF é requerido")
+    @NotNull(message = "O campo CPF é requerido.")
     @CPF
     protected String cpf;
 
-    @NotNull(message = "O campo EMAIL é requerido")
+    @NotNull(message = "O campo EMAIL é requerido.")
     protected String email;
 
-    @NotNull(message = "O campo SENHA é requerido")
+    @NotNull(message = "O campo SENHA é requerido.")
     protected String senha;
 
     protected Set<Integer> perfis = new HashSet<>();
@@ -42,15 +42,15 @@ public class ClienteDTO {
         setPerfil(Perfil.CLIENTE);
     }
 
-    public ClienteDTO(Cliente obj) {
+    public ClienteDTO(Cliente cliente) {
         super();
-        this.id = obj.getId();
-        this.nome = obj.getNome();
-        this.cpf = obj.getCpf();
-        this.email = obj.getEmail();
-        this.senha = obj.getSenha();
-        this.perfis = obj.getPerfis().stream().map(x -> x.getCodigo()).collect(Collectors.toSet());
-        this.dataCriacao = obj.getDataCriacao();
+        this.id = cliente.getId();
+        this.nome = cliente.getNome();
+        this.cpf = cliente.getCpf();
+        this.email = cliente.getEmail();
+        this.senha = cliente.getSenha();
+        this.perfis = cliente.getPerfis().stream().map(x -> x.getCodigo()).collect(Collectors.toSet());
+        this.dataCriacao = cliente.getDataCriacao();
         setPerfil(Perfil.CLIENTE);
     }
 

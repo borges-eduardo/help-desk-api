@@ -1,6 +1,5 @@
 package helpdesk.models.dtos;
 
-
 import lombok.Getter;
 import lombok.Setter;
 

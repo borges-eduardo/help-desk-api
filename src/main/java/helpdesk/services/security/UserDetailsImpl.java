@@ -1,11 +1,8 @@
 package helpdesk.services.security;
 
-import helpdesk.models.Cliente;
 import helpdesk.models.Pessoa;
-import helpdesk.repositories.ClienteRepository;
 import helpdesk.repositories.PessoaRepository;
 import lombok.AllArgsConstructor;
-import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
