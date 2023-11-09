@@ -37,7 +37,7 @@ public record ClienteService(ClienteRepository clienteRepository, BCryptPassword
         Cliente cliente = buscarClientePorId(id);
 
         if(!clienteDTO.getSenha().equals(cliente.getSenha()))
-            clienteDTO.setSenha(encoder.encode(cliente.getSenha()));
+            clienteDTO.setSenha(encoder.encode(clienteDTO.getSenha()));
 
         validaPorCpfEEmail(clienteDTO);
         cliente = new Cliente(clienteDTO);

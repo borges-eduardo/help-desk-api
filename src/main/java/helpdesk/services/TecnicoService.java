@@ -37,7 +37,7 @@ public record TecnicoService(TecnicoRepository tecnicoRepository, BCryptPassword
         Tecnico tecnico = buscarTecnicoPorId(id);
 
         if(!tecnicoDTO.getSenha().equals(tecnico.getSenha()))
-            tecnicoDTO.setSenha(encoder.encode(tecnico.getSenha()));
+            tecnicoDTO.setSenha(encoder.encode(tecnicoDTO.getSenha()));
         
         validaPorCpfEEmail(tecnicoDTO);
         tecnico = new Tecnico(tecnicoDTO);
