@@ -39,26 +39,26 @@ public class ClienteDTO {
 
     public ClienteDTO() {
         super();
-        setPerfis(Perfil.CLIENTE);
+        setPerfil(Perfil.CLIENTE);
     }
 
-    public ClienteDTO(Cliente cliente) {
+    public ClienteDTO(Cliente obj) {
         super();
-        this.id = cliente.getId();
-        this.nome = cliente.getNome();
-        this.cpf = cliente.getCpf();
-        this.email = cliente.getEmail();
-        this.senha = cliente.getSenha();
-        this.perfis = cliente.getPerfis().stream().map(Perfil::getCodigo).collect(Collectors.toSet());
-        this.dataCriacao = cliente.getDataCriacao();
-        setPerfis(Perfil.CLIENTE);
+        this.id = obj.getId();
+        this.nome = obj.getNome();
+        this.cpf = obj.getCpf();
+        this.email = obj.getEmail();
+        this.senha = obj.getSenha();
+        this.perfis = obj.getPerfis().stream().map(x -> x.getCodigo()).collect(Collectors.toSet());
+        this.dataCriacao = obj.getDataCriacao();
+        setPerfil(Perfil.CLIENTE);
     }
 
     public Set<Perfil> getPerfis() {
-        return perfis.stream().map(Perfil::toEnum).collect(Collectors.toSet());
+        return perfis.stream().map(x -> Perfil.toEnum(x)).collect(Collectors.toSet());
     }
 
-    public void setPerfis(Perfil perfil) {
+    public void setPerfil(Perfil perfil) {
         this.perfis.add(perfil.getCodigo());
     }
 }
